@@ -3320,11 +3320,11 @@ async function nextWordInStage() {
     if (displayText.length > 70) {
         questionWordEl.style.fontSize = '0.9rem';
     } else if (displayText.length > 50) {
-        questionWordEl.style.fontSize = '1.1rem';
-    } else if (displayText.length > 30) {
         questionWordEl.style.fontSize = '1.2rem';
-    } else if (displayText.length > 20) {
+    } else if (displayText.length > 30) {
         questionWordEl.style.fontSize = '1.3rem';
+    } else if (displayText.length > 20) {
+        questionWordEl.style.fontSize = '1.4rem';
     } else if (displayText.length > 10) {
         questionWordEl.style.fontSize = '1.7rem';
     } else {
