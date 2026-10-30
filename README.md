@@ -8,11 +8,11 @@ Ein minimalistischer, ablenkungsfreier Vokabeltrainer mit Spaced Repetition und 
 <br>
 
 <div align="center">
-  <img src="assets/screenshot-4.png" width="160" alt="Screenshot 4" />
-  <img src="assets/screenshot-5.png" width="160" alt="Screenshot 5" />
-  <img src="assets/screenshot-1.png" width="160" alt="Screenshot 1" />
-  <img src="assets/screenshot-2.png" width="160" alt="Screenshot 2" />
-  <img src="assets/screenshot-3.png" width="160" alt="Screenshot 3" />
+  <img src="assets/screenshot-4.png" width="18%" alt="Screenshot 4" />
+  <img src="assets/screenshot-5.png" width="18%" alt="Screenshot 5" />
+  <img src="assets/screenshot-1.png" width="18%" alt="Screenshot 1" />
+  <img src="assets/screenshot-2.png" width="18%" alt="Screenshot 2" />
+  <img src="assets/screenshot-3.png" width="18%" alt="Screenshot 3" />
   <br><br>
 </div>
 
