@@ -1,23 +1,12 @@
-# 🧪 Vokabel Trainer (Testversion / Preview)
+# Vokabel Trainer Preview
 
-Ein schlanker Vokabeltrainer mit Spaced Repetition, Offline-Funktion und ohne unnötigen Schnickschnack.
+Ein minimalistischer, ablenkungsfreier Vokabeltrainer mit Spaced Repetition und Offline-Funktion.
 
-> ### ⚠️ WICHTIGER HINWEIS: DIES IST EINE TESTVERSION!
->
-> - **Nutzung auf eigene Gefahr:** Diese Version dient rein zu Test- und Entwicklungszwecken.
-> - **Keine Datengarantie:** Die Datenspeicherung im Browser funktioniert grundsätzlich stabil. Dennoch können durch Fehler oder experimentelle Updates mühsam angelegte Vokabeln beschädigt werden oder verloren gehen. **Erstelle regelmäßig Backups über die Export-Funktion!**
-> - **Ständige Änderungen:** Features können sich jederzeit ohne Vorwarnung ändern, unvollständig sein oder temporär fehlerhaft reagieren.
-> - **Finale Version:** Eine saubere, stabile Version wird nach Abschluss aller Tests in einem separaten Repository veröffentlicht: **`Vokabel-Trainer`**.
-
----
 
 👉 **[Hier klicken, um die Testversion im Browser auszuprobieren](https://l100224.github.io/Vocabulary-Trainer-Experimental/)**
 
 *PWA-fähig: Du kannst die Seite einfach zum Startbildschirm hinzufügen.*
 
----
-
-## 📱 Screenshots
 
 <div align="center">
   <img src="assets/screenshot-4.png" width="160" alt="Screenshot 4" />
@@ -25,7 +14,12 @@ Ein schlanker Vokabeltrainer mit Spaced Repetition, Offline-Funktion und ohne un
   <img src="assets/screenshot-1.png" width="160" alt="Screenshot 1" />
   <img src="assets/screenshot-2.png" width="160" alt="Screenshot 2" />
   <img src="assets/screenshot-3.png" width="160" alt="Screenshot 3" />
+  <br><br>
 </div>
+
+> ⚠️ **Testversion:**  
+> Dies ist eine reine Entwicklungsversion; Features ändern sich laufend und können fehlerhaft sein. Daten können verloren gehen. Die finale, stabile Version erscheint später im Repository `Vocabulary-Trainer`.
+
 
 ---
 
@@ -40,7 +34,6 @@ Moderne Sprachlern-Apps sind häufig mit Funktionen überladen, die vom eigentli
 
 Dieser Vokabeltrainer soll dir dabei helfen, Vokabeln entspannt und effektiv zu lernen – ganz ohne störende Extras oder künstlichen Druck.
 
----
 
 ## ✨ Weitere Highlights
 
@@ -53,7 +46,7 @@ Dieser Vokabeltrainer soll dir dabei helfen, Vokabeln entspannt und effektiv zu 
   - **Offline-Sprachausgabe:** Kann in den Einstellungen aktiviert werden. Voraussetzung: Im Betriebssystem deines Geräts muss ein entsprechendes Sprachpaket installiert sein. Da die Qualität der Stimmen je nach Gerät stark variiert, solltest du das für deine Sprache erst ausprobieren.
 - 🌐 **Sprachbasis & App-Übersetzungen:** Aktuell ist die Benutzeroberfläche auf **Deutsch** und dient als feste Ausgangssprache, aus der du in andere Sprachen lernst. Eine vollständige Mehrsprachigkeit (andere App-Sprachen und andere Ausgangssprachen) ist bereits in Vorbereitung und wird zu einem späteren Zeitpunkt ergänzt.
 
----
+
 
 ## 🚀 Erste Schritte: Vokabeln anlegen
 
@@ -101,7 +94,6 @@ Du kannst bestehende Vokabellisten oder Quellen aus dem Internet zum Beispiel ga
 
 Speichere die fertige Liste als `.json`-Datei und importiere sie anschließend im Manager über **⬇️ Import**.
 
----
 
 ## 🧠 Wie gelernt wird: Das Spaced Repetition System (SRS)
 
@@ -116,10 +108,9 @@ Die App basiert auf dem wissenschaftlich bewährten **Spaced Repetition System**
 3. **Smarte Lastverteilung:**
    - Die Fälligkeiten werden so berechnet, dass du an keinem Tag von Bergen an Wiederholungen erschlagen wirst, sondern dein tägliches Pensum ausgeglichen bleibt.
 
----
 
 ## 🛠️ Feedback
 
 Falls dir Fehler auffallen oder du Ideen hast, erstelle gerne ein Issue im Repository!
 
-*Sobald die Testphase beendet ist, wird die saubere, finale Version im Repository `Vokabel-Trainer` bereitgestellt.*
+*Sobald die Testphase beendet ist, wird die saubere, finale Version im Repository `Vocabulary-Trainer` bereitgestellt.*
