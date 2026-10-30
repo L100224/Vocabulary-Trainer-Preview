@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="app_title">Vokabel Trainer</title>
+
+    <!-- PWA & Mobile Meta Tags -->
+    <meta name="theme-color" content="#F3F4F6" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#111827" media="(prefers-color-scheme: dark)">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Vokabeln">
+    <link rel="apple-touch-icon" href="favicon.ico">
+
+    <!-- Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Favicons -->
+    <link rel="icon" href="favicon-dark.ico" type="image/x-icon" media="(prefers-color-scheme: dark)">
+    <link rel="icon" href="favicon.ico" type="image/x-icon" media="(prefers-color-scheme: light)">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- HEADER: APP-TITEL LINKS, STREAK & FLAGGE RECHTS -->
+    <header id="appHeader">
+        <h1 data-i18n="app_title">Vokabel Trainer</h1>
+        <div class="header-right-group">
+            <!-- STREAK BADGE MIT SLIDE-WRAPPER & MOBILE-TOOLTIP -->
+            <div id="streakBadge" class="streak-badge hidden" data-i18n-title="streak_badge_title"
+                title="Täglicher Lernstreak">
+                <span class="streak-icon">🔥</span>
+                <span class="streak-count-wrapper">
+                    <span id="streakCount" class="streak-count">0</span>
+                </span>
+                <div id="streakTooltip" class="streak-tooltip hidden"></div>
+            </div>
+            <button id="langHeaderBtn" class="lang-header-btn" data-i18n-title="header_my_langs" title="Meine Sprachen">
+                <img id="headerLangFlag" class="header-flag-img hidden" alt="Sprachflagge">
+            </button>
+        </div>
+    </header>
+
+    <main id="appMain">
+        <!-- TAB 1: HOME -->
+        <div id="tab-home" class="tab-content active">
+            <!-- STATISTIK-KARTE -->
+            <section class="card stats-card">
+                <div class="stats-card-header">
+                    <h2 data-i18n="stats_overview">Lernübersicht</h2>
+                    <span class="stats-total-words" id="statTotalWords">0 Wörter gesamt</span>
+                </div>
+
+                <div class="stats-grid-compact">
+                    <div class="stat-tile tile-action">
+                        <span class="stat-tile-label" data-i18n="stat_due_today">Heute fällig</span>
+                        <span class="stat-tile-number" id="statDueToday">0</span>
+                        <div class="stat-tile-sub" id="statTileSubTomorrow">
+                            <span>Morgen: </span><strong id="statDueTomorrow">0</strong><span> fällig</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-tile tile-progress">
+                        <span class="stat-tile-label" data-i18n="stat_in_training">Im Training</span>
+                        <span class="stat-tile-number" id="statActiveCount">0</span>
+                        <div class="stat-tile-sub" id="statTileSubNew">
+                            <strong id="statNewCount">0</strong><span> noch neu</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FORTSCHRITTSBALKEN (TONAL INDIGO) -->
+                <div class="levels-overview">
+                    <div class="levels-header">
+                        <span data-i18n="levels_overview_title">Lernfortschritt nach Stufen</span>
+                    </div>
+                    <div class="level-bars">
+                        <div class="level-segment lvl-new" id="barNew" data-i18n-title="bar_lvl_0"
+                            title="Neu (Stufe 0)"></div>
+                        <div class="level-segment lvl-learn" id="barLearn" data-i18n-title="bar_lvl_1_3"
+                            title="Lernen (Stufe 1-3)"></div>
+                        <div class="level-segment lvl-prog" id="barProg" data-i18n-title="bar_lvl_4_7"
+                            title="Festigen (Stufe 4-7)"></div>
+                        <div class="level-segment lvl-master" id="barMaster" data-i18n-title="bar_lvl_8_plus"
+                            title="Gemeistert (Stufe 8-10)"></div>
+                    </div>
+                    <div class="level-legend">
+                        <span><span class="legend-dot lvl-new"></span> <span data-i18n="lbl_lvl_0">Neu</span>: <strong
+                                id="lblLvlNew">0</strong></span>
+                        <span><span class="legend-dot lvl-learn"></span> <span data-i18n="lbl_lvl_1_3">1–3</span>:
+                            <strong id="lblLvlLearn">0</strong></span>
+                        <span><span class="legend-dot lvl-prog"></span> <span data-i18n="lbl_lvl_4_7">4–7</span>:
+                            <strong id="lblLvlProg">0</strong></span>
+                        <span><span class="legend-dot lvl-master"></span> <span data-i18n="lbl_lvl_8_plus">8+</span>:
+                            <strong id="lblLvlMaster">0</strong></span>
+                    </div>
+                </div>
+            </section>
+            <!-- HAUPTAKTION 1: VOKABEL-LEKTION (10 WÖRTER) -->
+            <section class="card main-action-card">
+                <h2 data-i18n="start_lesson_title">Wortschatz lernen</h2>
+                <p id="smartLessonHint" class="card-subtitle"></p>
+                <div class="action-row-vertical">
+                    <div class="smart-lesson-controls">
+                        <select id="smartLessonSource" class="smart-select-source hidden"
+                            title="Quelle für neue Wörter"></select>
+                    </div>
+                    <button id="startSmartLessonBtn" class="btn-primary btn-large" data-i18n="btn_start_lesson">Vokabeln
+                        lernen (10 Wörter)</button>
+                </div>
+            </section>
+
+            <!-- HAUPTAKTION 2: SATZBAU-LEKTION (5 SÄTZE) -->
+            <section class="card sentence-action-card">
+                <h2 data-i18n="start_sentence_lesson_title">Satzbau trainieren</h2>
+                <p id="smartSentenceLessonHint" class="card-subtitle"></p>
+                <div class="action-row-vertical">
+                    <div class="smart-lesson-controls">
+                        <select id="smartSentenceLessonSource" class="smart-select-source hidden"
+                            title="Quelle für neue Sätze"></select>
+                    </div>
+                    <button id="startSentenceLessonBtn" class="btn-secondary btn-large"
+                        style="background:#4F46E5; color:#fff;" data-i18n="btn_start_sentence_lesson">Sätze lernen (5
+                        Sätze)</button>
+                </div>
+            </section>
+
+            <!-- EXTRA: GEZIELT ÜBEN -->
+            <section class="card secondary-action-card">
+                <h2 data-i18n="cram_title">Gezielt üben</h2>
+                <p class="card-subtitle" data-i18n="cram_subtitle">Übungsmodus: Verändert keine Stufen oder
+                    Fälligkeiten.</p>
+                <div class="action-row-vertical">
+                    <div class="cram-controls">
+                        <select id="cramTypeFilter" class="cram-select-type">
+                            <option value="ALL" selected data-i18n="cram_filter_all">Alle (Wörter & Sätze)</option>
+                            <option value="WORDS" data-i18n="cram_filter_words">Nur Wörter</option>
+                            <option value="SENTENCES" data-i18n="cram_filter_sentences">Nur Sätze</option>
+                        </select>
+                        <select id="cramGroup" class="cram-select-group"></select>
+                        <select id="cramBatchSize" class="cram-select-size">
+                            <option value="5" data-i18n="cram_size_5">5 Einträge</option>
+                            <option value="10" selected data-i18n="cram_size_10">10 Einträge</option>
+                            <option value="20" data-i18n="cram_size_20">20 Einträge</option>
+                            <option value="50" data-i18n="cram_size_50">50 Einträge</option>
+                            <option value="999999" data-i18n="cram_size_all">Alle Einträge</option>
+                        </select>
+                    </div>
+                    <button id="startCramBtn" class="btn-secondary" data-i18n="btn_start_cram">Auswahl üben</button>
+                </div>
+            </section>
+        </div>
+
+        <!-- TAB 2: VOKABEL MANAGER -->
+        <div id="tab-manager" class="tab-content">
+            <div class="manager-header">
+                <h2 data-i18n="manager_title">Vokabel-Manager</h2>
+                <div class="manager-header-actions">
+                    <select id="managerPageSizeSelect" class="btn-secondary btn-small" title="Einträge pro Seite">
+                        <option value="25" data-i18n="page_size_25">25 pro Seite</option>
+                        <option value="50" data-i18n="page_size_50">50 pro Seite</option>
+                        <option value="100" data-i18n="page_size_100">100 pro Seite</option>
+                        <option value="200" data-i18n="page_size_200">200 pro Seite</option>
+                        <option value="ALL" data-i18n="page_size_all">Alle anzeigen</option>
+                    </select>
+                    <button id="importBtn" class="btn-secondary btn-small" data-i18n="btn_import">⬇️ Import</button>
+                    <input type="file" id="fileImport" accept=".json" class="hidden">
+                    <button id="exportAllBtn" class="btn-secondary btn-small" data-i18n="btn_export">⬆️
+                        Exportieren</button>
+                    <button id="managerAddWordBtn" class="btn-primary" data-i18n="btn_new_word">+ Neues Wort</button>
+                </div>
+            </div>
+
+            <!-- PAGINIERUNG OBEN -->
+            <div id="paginationContainerTop" class="pagination-bar pagination-top hidden">
+                <button class="btn-secondary btn-small page-first-btn" data-i18n-title="pagination_first"
+                    title="«">«</button>
+                <button class="btn-secondary btn-small page-prev-btn" data-i18n-title="pagination_prev"
+                    title="‹">‹</button>
+                <span class="page-info page-info-text">Seite 1 von 1</span>
+                <button class="btn-secondary btn-small page-next-btn" data-i18n-title="pagination_next"
+                    title="›">›</button>
+                <button class="btn-secondary btn-small page-last-btn" data-i18n-title="pagination_last"
+                    title="»">»</button>
+            </div>
+
+            <div class="table-container" id="vocabTableContainer">
+                <table id="vocabTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 40px;"><input type="checkbox" id="selectAllCheckbox"></th>
+                            <th>
+                                <span class="sort-btn" data-sort="german">
+                                    <span id="thNativeText" data-i18n="native_lang_name">Deutsch</span><span
+                                        class="sort-icon" id="sortIconGerman"></span>
+                                </span>
+                            </th>
+                            <th>
+                                <span class="sort-btn" data-sort="foreign">
+                                    <span id="thForeignText" data-i18n="default_foreign_lang">Fremdsprache</span><span
+                                        class="sort-icon" id="sortIconForeign"></span>
+                                </span>
+                            </th>
+                            <th>
+                                <span class="sort-btn" data-sort="group">
+                                    <span data-i18n="th_group">Gruppe</span><span class="sort-icon"
+                                        id="sortIconGroup"></span>
+                                </span>
+                            </th>
+                            <th style="width: 80px;">
+                                <span class="sort-btn" data-sort="level">
+                                    <span data-i18n="th_level">Stufe</span><span class="sort-icon"
+                                        id="sortIconLevel"></span>
+                                </span>
+                            </th>
+                            <th style="width: 120px;">
+                                <span class="sort-btn" data-sort="nextDue">
+                                    <span data-i18n="th_due">Fälligkeit</span><span class="sort-icon"
+                                        id="sortIconNextDue"></span>
+                                </span>
+                            </th>
+                            <th style="width: 70px; text-align: center;" data-i18n="th_action">Aktion</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vocabTableBody"></tbody>
+                </table>
+            </div>
+
+            <!-- PAGINIERUNG UNTEN -->
+            <div id="paginationContainerBottom" class="pagination-bar pagination-bottom hidden">
+                <button class="btn-secondary btn-small page-first-btn" data-i18n-title="pagination_first"
+                    title="«">«</button>
+                <button class="btn-secondary btn-small page-prev-btn" data-i18n-title="pagination_prev"
+                    title="‹">‹</button>
+                <span class="page-info page-info-text">Seite 1 von 1</span>
+                <button class="btn-secondary btn-small page-next-btn" data-i18n-title="pagination_next"
+                    title="›">›</button>
+                <button class="btn-secondary btn-small page-last-btn" data-i18n-title="pagination_last"
+                    title="»">»</button>
+            </div>
+
+            <div id="bulkActions" class="bulk-actions-floating hidden">
+                <span id="selectedCount">0 ausgewählt</span>
+                <div class="bulk-buttons">
+                    <button id="bulkExportBtn" class="btn-secondary btn-small"
+                        data-i18n="bulk_export">Exportieren</button>
+                    <button id="bulkDeleteBtn" class="btn-danger btn-small" data-i18n="bulk_delete">Löschen</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: SETTINGS -->
+        <div id="tab-settings" class="tab-content">
+            <div class="card settings-card">
+                <h2 data-i18n="settings_title">Einstellungen</h2>
+
+                <!-- SPRACHAUSWAHL DER APP -->
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <span class="setting-title" data-i18n="setting_ui_lang">App-Sprache</span>
+                        <span class="setting-desc" data-i18n="setting_ui_lang_desc">Wähle die Sprache der
+                            Benutzeroberfläche.</span>
+                    </div>
+                    <select id="settingUiLanguageSelect" class="btn-secondary btn-small" style="font-weight: 600;">
+                        <option value="de">Deutsch</option>
+                        <option value="en">English</option>
+                        <option value="es">Español</option>
+                        <option value="fr">Français</option>
+                        <option value="it">Italiano</option>
+                    </select>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <span class="setting-title" data-i18n="setting_auto_speak">Aussprache automatisch
+                            vorlesen</span>
+                        <span class="setting-desc" data-i18n="setting_auto_speak_desc">Spielt fremdsprachige Wörter
+                            automatisch ab, sobald sie erscheinen.</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="settingAutoSpeak" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <span class="setting-title" data-i18n="setting_offline_voice">Lokale Sprachpakete offline
+                            nutzen</span>
+                        <span class="setting-desc" data-i18n="setting_offline_voice_desc">Ermöglicht Sprachausgabe ohne
+                            Internet, sofern das Sprachpaket installiert ist.</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="settingOfflineVoice">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <!-- <div class="setting-item">
+                    <div class="setting-info">
+                        <span class="setting-title" data-i18n="setting_sound_fx">Soundeffekte aktivieren</span>
+                        <span class="setting-desc" data-i18n="setting_sound_fx_desc">Spielt Klänge bei richtigen,
+                            falschen und abgeschlossenen Lektionen ab.</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="settingSoundEffects" >
+                        <span class="slider"></span>
+                    </label>
+                </div> -->
+
+                <!-- LERNFORTSCHRITT BACKUP & IMPORT -->
+                <div class="setting-item" style="flex-direction: column; align-items: flex-start; gap: 0.75rem;">
+                    <div class="setting-info">
+                        <span class="setting-title" data-i18n="setting_backup_title">Lernfortschritt & Backup</span>
+                        <span class="setting-desc" data-i18n="setting_backup_desc">Exportiert nur gelernte Wörter (ab
+                            Stufe 1) mit ihren aktuellen Stufen und Fälligkeiten.</span>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                        <button type="button" id="exportProgressBtn" class="btn-secondary btn-small"
+                            data-i18n="btn_export_progress">⬆️ Fortschritt exportieren</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- BOTTOM NAVIGATION MIT 3 TABS -->
+    <nav class="bottom-nav" id="bottomNav">
+        <button id="navHome" class="nav-item active"><span class="nav-icon">🏠</span><span
+                data-i18n="nav_home">Home</span></button>
+        <button id="navManager" class="nav-item"><span class="nav-icon">📚</span><span
+                data-i18n="nav_manager">Manager</span></button>
+        <button id="navSettings" class="nav-item"><span class="nav-icon">⚙️</span><span
+                data-i18n="nav_settings">Optionen</span></button>
+    </nav>
+
+    <!-- LERN-SESSION SCREEN -->
+    <div id="sessionScreen" class="hidden">
+        <div class="session-header">
+            <button id="cancelSessionBtn" class="btn-close-icon" data-i18n-title="confirm_quit_session_title"
+                title="Lektion beenden" aria-label="Lektion beenden">✕</button>
+            <div class="progress-container">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
+            <span id="progressText">0/0</span>
+        </div>
+
+        <div class="session-content" id="standardSessionArea">
+            <div class="question-direction-row">
+                <p id="questionDirection" class="question-hint">Übersetze:</p>
+                <span id="newWordBadge" class="new-word-badge hidden" data-i18n="badge_new_word">NEU</span>
+            </div>
+            <div class="question-wrapper">
+                <img id="questionFlag" class="question-flag-img hidden" alt="Sprachflagge">
+                <h2 id="questionWord" class="question-word">...</h2>
+                <button id="replayAudioBtn" class="btn-icon" data-i18n-title="feedback_replay_title"
+                    title="Nochmal anhören">🔊</button>
+            </div>
+
+            <!-- EINGABE-BEREICH (TASTATUR) -->
+            <div class="input-area" id="keyboardInputArea">
+                <input type="text" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false"
+                    id="answerInput" data-i18n-placeholder="placeholder_answer" placeholder="Antwort eingeben...">
+            </div>
+
+            <!-- INTERAKTIVES SATZBAU-KACHEL-BOARD -->
+            <div id="sentenceBoard" class="sentence-board hidden">
+                <!-- Satz-Zeile (Zielbereich) -->
+                <div class="sentence-slot-container" id="sentenceSlot">
+                    <div class="sentence-slot-placeholder" id="sentenceSlotPlaceholder">Kacheln antippen oder hierher
+                        ziehen</div>
+                </div>
+                <!-- Kachel-Pool (Startbereich) -->
+                <div class="sentence-pool-container" id="sentencePool"></div>
+            </div>
+
+            <!-- TOGGLE BUTTON ZWISCHEN KACHELN UND TASTATUR -->
+            <div id="toggleInputModeWrap" class="toggle-input-mode-wrap hidden">
+                <button type="button" id="toggleInputModeBtn" class="btn-toggle-input">⌨️ Tastatur nutzen</button>
+            </div>
+
+            <div id="hintOptionsContainer" class="hint-options-grid hidden"></div>
+
+            <div id="feedbackBox" class="feedback-box hidden">
+                <h3 id="feedbackTitle" data-i18n="feedback_correct">Richtig!</h3>
+                <div class="feedback-solution-wrapper">
+                    <p id="feedbackSolution"><span data-i18n="feedback_solution">Lösung:</span> <strong
+                            id="correctAnswerText">...</strong></p>
+                    <button id="feedbackAudioBtn" class="btn-icon btn-small-audio hidden"
+                        data-i18n-title="feedback_listen_title" title="Aussprache anhören">🔊</button>
+                </div>
+                <p id="feedbackStreakText" class="feedback-streak-hint"></p>
+            </div>
+        </div>
+
+        <!-- BLITZ-WIEDERHOLUNG MIT MINIMALISTISCHEM TEXT -->
+        <div class="session-content hidden" id="matchingSessionArea">
+            <div class="matching-wrapper">
+                <div class="matching-title-box">
+                    <h2 class="matching-title" id="matchingMainTitle" data-i18n="matching_title">Blitz-Runde ⚡</h2>
+                    <p class="matching-subtitle" id="matchingSubTitle" data-i18n="matching_subtitle">Verbinde die Paare
+                    </p>
+                </div>
+                <div class="matching-grid">
+                    <div class="matching-column" id="matchColLeft"></div>
+                    <div class="matching-column" id="matchColRight"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- EINHEITLICHE BUTTONS AM UNTEREN BILDSCHIRMRAND -->
+        <div class="session-actions" id="actionButtons">
+            <button id="checkBtn" class="btn-primary" data-i18n="btn_check">Prüfen</button>
+        </div>
+        <div class="session-actions hidden" id="nextButtonContainer">
+            <button id="nextBtn" class="btn-primary" style="width: 100%;" data-i18n="btn_next">Weiter</button>
+        </div>
+        <div class="session-actions hidden" id="matchingButtonContainer">
+            <button id="matchingDoneBtn" class="btn-primary" style="width: 100%;" disabled
+                data-i18n="btn_matching_connect">Paare verbinden...</button>
+        </div>
+    </div>
+
+    <!-- SUMMARY SCREEN MIT STUFEN-DYNAMIK & DETAILS -->
+    <div id="summaryScreen" class="hidden">
+        <div class="summary-content">
+            <div class="summary-card">
+                <h2 id="summaryTitle" data-i18n="summary_title_smart">Lektion gemeistert! 🎉</h2>
+
+                <!-- GROSSE PROZENT-ANZEIGE & DAUER -->
+                <div class="summary-top-grid">
+                    <div class="summary-top-tile">
+                        <span class="summary-tile-num" id="summaryAccuracy">0%</span>
+                        <span class="summary-tile-lbl" data-i18n="summary_accuracy">Genauigkeit</span>
+                    </div>
+                    <div class="summary-top-tile">
+                        <span class="summary-tile-num" id="summaryTime">0:00</span>
+                        <span class="summary-tile-lbl" data-i18n="summary_duration">Dauer</span>
+                    </div>
+                </div>
+
+                <!-- 3ER-GRID: STUFEN-DYNAMIK (SMART LESSON) -->
+                <div id="summaryLevelGrid" class="summary-level-grid">
+                    <div class="summary-level-box lvl-up">
+                        <span class="summary-level-num" id="sumLvlUp">0</span>
+                        <span class="summary-level-lbl" data-i18n="summary_lvl_up">Aufgestiegen</span>
+                    </div>
+                    <div class="summary-level-box lvl-same">
+                        <span class="summary-level-num" id="sumLvlSame">0</span>
+                        <span class="summary-level-lbl" data-i18n="summary_lvl_same">Unverändert</span>
+                    </div>
+                    <div class="summary-level-box lvl-down">
+                        <span class="summary-level-num" id="sumLvlDown">0</span>
+                        <span class="summary-level-lbl" data-i18n="summary_lvl_down">Abgestiegen</span>
+                    </div>
+                </div>
+
+                <!-- HINWEIS BEI GEZIELT ÜBEN (STATT STUFEN) -->
+                <div id="summaryCramNotice" class="summary-cram-notice hidden" data-i18n="summary_cram_notice">
+                    📚 Übungsmodus: Stufen und Fälligkeiten blieben unverändert.
+                </div>
+
+                <!-- TOGGLE FÜR DETAILS -->
+                <div class="summary-toggle-wrap">
+                    <button type="button" id="toggleSummaryDetailsBtn" class="btn-summary-toggle"
+                        data-i18n="summary_show_details">
+                        Details anzeigen ▾
+                    </button>
+                </div>
+
+                <!-- AUSKLAPPBARER BEREICH -->
+                <div id="summaryDetailsContainer" class="summary-details hidden">
+                    <!-- PROBLEMWORT / HIGHLIGHT -->
+                    <div id="summaryProblemWordBox" class="summary-problem-card"></div>
+
+                    <!-- DETAIL-LISTE ALLER WÖRTER -->
+                    <div class="summary-list-header" data-i18n="summary_list_title">Alle Vokabeln dieser Runde</div>
+                    <div id="summaryWordList" class="summary-word-list"></div>
+                </div>
+            </div>
+        </div>
+        <div class="session-actions">
+            <button id="finishSessionBtn" class="btn-primary" style="width:100%;" data-i18n="btn_finish_session">Zurück
+                zum Home-Screen</button>
+        </div>
+    </div>
+
+    <!-- MODALS & OVERLAYS -->
+    <div id="modalOverlay" class="overlay hidden"></div>
+
+    <!-- MEINE SPRACHEN MODAL / SHEET -->
+    <div id="languagesModal" class="modal languages-sheet-modal hidden">
+        <div class="languages-modal-header">
+            <h2 data-i18n="modal_languages_title">Meine Sprachen</h2>
+            <button type="button" id="toggleEditLangsBtn" class="btn-text btn-small"
+                data-i18n="btn_edit_languages">Bearbeiten</button>
+        </div>
+        <div id="languagesList" class="languages-list"></div>
+        <div class="languages-modal-footer">
+            <button type="button" id="openAddLangModalBtn" class="btn-primary" style="width: 100%;"
+                data-i18n="btn_add_language">➕ Neue Sprache hinzufügen</button>
+        </div>
+    </div>
+
+    <!-- ADD/EDIT WORD MODAL -->
+    <div id="wordModal" class="modal hidden">
+        <h2 id="wordModalTitle" data-i18n="modal_word_title_new">Neues Wort</h2>
+
+        <div id="wordModalAlert" class="inline-alert hidden">
+            <span id="wordModalAlertText"></span>
+            <button type="button" id="wordModalMergeBtn" class="btn-primary btn-small hidden" data-i18n="btn_merge"
+                style="margin-top: 0.5rem;">Zusammenführen</button>
+        </div>
+
+        <form id="wordForm">
+            <input type="hidden" id="editWordId">
+            <div class="input-group">
+                <label for="wordGerman" id="labelWordGerman" data-i18n="native_lang_name">Deutsch</label>
+                <input type="text" id="wordGerman" autocapitalize="none" data-i18n-placeholder="placeholder_native_word"
+                    placeholder="z.B. [die] Bank (Finanzen), [das] Geldhaus" required autocomplete="off">
+            </div>
+            <div class="input-group">
+                <label for="wordForeign" id="labelWordForeign" data-i18n="default_foreign_lang">Fremdsprache</label>
+                <input type="text" id="wordForeign" autocapitalize="none"
+                    data-i18n-placeholder="placeholder_foreign_word" placeholder="z.B. [la] banque, [le] banc" required
+                    autocomplete="off">
+            </div>
+            <div class="input-group">
+                <label for="wordGroup" data-i18n="lbl_word_group">Gruppe (Optional)</label>
+                <input type="text" id="wordGroup" autocapitalize="none" data-i18n-placeholder="placeholder_group"
+                    placeholder="z.B. Lektion 1" autocomplete="off">
+            </div>
+            <div class="checkbox-group" style="margin-top: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                <input type="checkbox" id="wordIsSentence" style="transform: scale(1.2); cursor: pointer;">
+                <label for="wordIsSentence" data-i18n="lbl_word_is_sentence"
+                    style="font-size: 0.9rem; font-weight: 600; cursor: pointer; color: var(--text-main);">Satz /
+                    Satzbau-Übung</label>
+            </div>
+            <div class="modal-actions-spread">
+                <button type="button" id="deleteCurrentWordBtn" class="btn-danger btn-small hidden"
+                    data-i18n="btn_delete_word">🗑️ Wort löschen</button>
+                <div class="modal-actions-right">
+                    <button type="button" class="btn-text close-modal" data-i18n="btn_cancel">Abbrechen</button>
+                    <button type="submit" class="btn-primary" data-i18n="btn_save">Speichern</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- ADD LANG MODAL -->
+    <div id="addLangModal" class="modal hidden">
+        <h2 data-i18n="modal_add_lang_title">Sprache hinzufügen</h2>
+        <form id="addLangForm">
+            <div class="input-group">
+                <label for="langPreset" data-i18n="lbl_lang_preset">Auswahl</label>
+                <!-- Optionen werden jetzt rein dynamisch in app.js befüllt (ohne die eigene Sprache) -->
+                <select id="langPreset" required>
+                    <option value="" disabled selected data-i18n="select_lang_placeholder">Bitte wählen...</option>
+                </select>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-text close-modal" data-i18n="btn_cancel">Abbrechen</button>
+                <button type="submit" class="btn-primary" data-i18n="btn_confirm">Hinzufügen</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- RENAME LANG MODAL -->
+    <div id="renameLangModal" class="modal hidden">
+        <h2 data-i18n="modal_rename_lang_title">Sprache umbenennen</h2>
+        <form id="renameLangForm">
+            <input type="hidden" id="renameLangId">
+            <div class="input-group">
+                <label for="renameLangInput" data-i18n="lbl_rename_lang">Anzeigename (max. 30 Zeichen)</label>
+                <input type="text" id="renameLangInput" maxlength="30" required autocomplete="off">
+            </div>
+            <div class="modal-actions-spread">
+                <div class="modal-actions-right">
+                    <button type="button" class="btn-text" id="cancelRenameLangBtn"
+                        data-i18n="btn_cancel">Abbrechen</button>
+                    <button type="submit" class="btn-primary" data-i18n="btn_save">Speichern</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- IMPORT PROGRESS MODAL -->
+    <div id="importProgressModal" class="modal hidden" style="z-index: 80;">
+        <h3 style="margin-bottom: 0.5rem;" data-i18n="modal_import_title">Vokabeln werden importiert...</h3>
+        <div class="progress-container" style="height: 12px; margin: 1.25rem 0 0.5rem 0;">
+            <div id="importProgressBar" class="progress-bar" style="width: 0%;"></div>
+        </div>
+        <p id="importProgressText" style="font-size: 0.85rem; color: var(--text-muted); text-align: center;">0%</p>
+        <div style="margin-top: 1.25rem; text-align: center;">
+            <button type="button" id="cancelImportBtn" class="btn-secondary btn-small"
+                data-i18n="btn_cancel_import">Import abbrechen</button>
+        </div>
+    </div>
+
+    <!-- CUSTOM APP CONFIRM / ALERT MODAL -->
+    <div id="customModal" class="modal hidden" style="z-index: 70;">
+        <h3 id="customModalTitle" data-i18n="alert_no_words_export_title">Hinweis</h3>
+        <p id="customModalMessage"
+            style="margin: 1rem 0; color: var(--text-main); font-size: 0.95rem; line-height: 1.4;"></p>
+        <div class="modal-actions">
+            <button id="customModalCancelBtn" class="btn-text" data-i18n="btn_cancel">Abbrechen</button>
+            <button id="customModalConfirmBtn" class="btn-primary" data-i18n="btn_ok">OK</button>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toastNotification" class="toast hidden"></div>
+
+    <!-- SCRIPTS -->
+    <script src="translations.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,26 @@
+{
+    "name": "Vokabel Trainer",
+    "short_name": "Vokabeltrainer",
+    "description": "Vokabeltrainer",
+    "id": "./",
+    "scope": "./",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#F3F4F6",
+    "theme_color": "#F3F4F6",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "./favicon_512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "./favicon_512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ]
+}
