@@ -3318,11 +3318,11 @@ async function nextWordInStage() {
     questionWordEl.textContent = displayText;
 
     if (displayText.length > 70) {
-        questionWordEl.style.fontSize = '0.8rem';
-    } else if (displayText.length > 50) {
         questionWordEl.style.fontSize = '0.9rem';
+    } else if (displayText.length > 50) {
+        questionWordEl.style.fontSize = '1.1rem';
     } else if (displayText.length > 30) {
-        questionWordEl.style.fontSize = '1.0rem';
+        questionWordEl.style.fontSize = '1.2rem';
     } else if (displayText.length > 20) {
         questionWordEl.style.fontSize = '1.3rem';
     } else if (displayText.length > 10) {
