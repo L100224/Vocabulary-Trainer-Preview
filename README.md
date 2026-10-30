@@ -11,7 +11,7 @@ Ein schlanker Vokabeltrainer mit Spaced Repetition, Offline-Funktion und ohne un
 
 ---
 
-👉 **[Hier klicken, um die Testversion im Browser auszuprobieren](https://DEIN-NUTZERNAME.github.io/vokabel-trainer-test/)**
+👉 **[Hier klicken, um die Testversion im Browser auszuprobieren](https://l100224.github.io/Vocabulary-Trainer-Experimental/)**
 
 *PWA-fähig: Du kannst die Seite einfach zum Startbildschirm hinzufügen.*
 
