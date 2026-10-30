@@ -5,8 +5,7 @@ Ein minimalistischer, ablenkungsfreier Vokabeltrainer mit Spaced Repetition und 
 
 👉 **[Hier klicken, um die Testversion im Browser auszuprobieren](https://l100224.github.io/Vocabulary-Trainer-Experimental/)**
 
-*PWA-fähig: Du kannst die Seite einfach zum Startbildschirm hinzufügen.*
-
+<br>
 
 <div align="center">
   <img src="assets/screenshot-4.png" width="160" alt="Screenshot 4" />
@@ -20,8 +19,7 @@ Ein minimalistischer, ablenkungsfreier Vokabeltrainer mit Spaced Repetition und 
 > ⚠️ **Testversion:**  
 > Dies ist eine reine Entwicklungsversion; Features ändern sich laufend und können fehlerhaft sein. Daten können verloren gehen. Die finale, stabile Version erscheint später im Repository `Vocabulary-Trainer`.
 
-
----
+<br>
 
 ## 💡 Warum dieses Projekt?
 
