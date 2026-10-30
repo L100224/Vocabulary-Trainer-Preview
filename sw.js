@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vocab-trainer-v1.0.15';
+const CACHE_NAME = 'vocab-trainer-v1.0.16';
 
 // Alle Dateien, die für den Offline-Betrieb benötigt werden
 const ASSETS_TO_CACHE = [
