@@ -1,4 +1,130 @@
-# Vokabel Trainer Preview
+# **Vocabulary Trainer Preview**
+
+[English](#english) | [Deutsch](#deutsch)
+
+<br>
+
+<a id="english"></a>
+
+# English
+
+A minimalist, distraction-free vocabulary trainer featuring spaced repetition and offline functionality.
+
+
+👉 **[Click here to try the preview version in your browser](https://l100224.github.io/Vocabulary-Trainer-Preview/)**
+
+<br>
+
+<div align="center">
+<img src="assets/screenshot-4.png" width="18%" alt="Screenshot 4" />
+<img src="assets/screenshot-5.png" width="18%" alt="Screenshot 5" />
+<img src="assets/screenshot-1.png" width="18%" alt="Screenshot 1" />
+<img src="assets/screenshot-2.png" width="18%" alt="Screenshot 2" />
+<img src="assets/screenshot-3.png" width="18%" alt="Screenshot 3" />
+<br><br>
+</div>
+
+> ⚠️ **Preview Version:**
+> This is a development-only version; features are subject to frequent change and may contain bugs. Data loss is possible. The final, stable version will be released later in the `Vocabulary-Trainer` repository.
+
+<br>
+
+## 💡 Why this project?
+
+Modern language-learning apps are often overloaded with features that distract from the actual learning process:
+
+- Endless, annoying animations and loading bars
+- Artificial wait times or manufactured time pressure
+- Unnecessary point, diamond, or XP systems
+- Intrusive advertising or expensive subscriptions
+
+This vocabulary trainer is designed to help you learn vocabulary in a relaxed and effective way—completely free from distracting extras or artificial pressure.
+
+
+## ✨ Key Features
+
+- 🔒 **100% local & no account needed:** There is no need to register anywhere. All data is stored in your browser's local database (`IndexedDB`). Your data belongs to you.
+- 📶 **Offline & PWA:** Once opened, the app works entirely offline thanks to service workers (e.g., in airplane mode or while on the go).
+- 🌍 **Multiple Languages Supported:** Add as many languages as you like (e.g., English, Spanish, French). Each language has its own independent database and tracks its own progress.
+- 🔥 **Daily Streak:** A streak counter for each language keeps you motivated to complete at least a quick session every day (including a streak recovery feature in case you miss a day).
+- 🔊 **Text-to-Speech:** You can choose whether the foreign language term is read aloud automatically when it appears or only when you click the speaker icon.
+  - **Offline Text-to-Speech:** Can be enabled in the settings. Requirement: The corresponding language pack must be installed on your device's operating system. Since voice quality varies significantly between devices, it is recommended to test this for your specific language.
+- 🌐 **Base Language & App Translations:** Currently, the user interface is in **German**, which serves as the fixed base language from which you learn other languages. Full multilingual support (including other app interface languages and different base languages) is already in development and will be added in a future update.
+
+
+## 🚀 Getting Started: Adding Vocabulary
+
+When you first launch the app, it will be completely empty. You can add vocabulary in two ways:
+
+### Method 1: Adding Vocabulary Manually (Simple & Flexible)
+
+Essentially, all you need to do is enter the word and its translation—everything else is entirely optional. The app also offers some clever additional features:
+
+- **Articles in square brackets `[...]`:**
+If you place an article in square brackets (e.g., `[die] Katze` or `[the] cat`), the app automatically identifies it as an article. 
+*A major advantage for learning:* When providing an answer, you can choose whether or not to include the article (e.g., typing either `Katze` or `die Katze`)—both will be marked as correct!
+- **Distinguishing meanings with `(...)`:**
+Parentheses are optional and are used to differentiate between words that are spelled the same (e.g., `Bank (Finanzen)` vs. `Bank (Park)`).
+- **Multiple translations / synonyms:**
+If there are several translations or synonyms, simply separate them with a semicolon `;` (e.g., `Geldinstitut; Bank`).
+
+### Method 2: Importing Entire Vocabulary Lists via JSON
+
+You can easily convert existing vocabulary lists or online resources into the required format—for instance, by using an AI.
+
+#### 📋 The import format:
+
+```json
+[
+{
+"german": "[die] Katze",
+"foreign": "[the] cat",
+"group": "Tiere"
+},
+{
+"german": "[die] Bank (Finanzen); [das] Geldinstitut",
+"foreign": "[the] bank",
+"group": "Test am Montag"
+},
+{
+"german": "Hund",
+"foreign": "dog"
+}
+]
+```
+
+> **Note on groups:**
+> The `"group"` field is optional. However, it is extremely useful when importing larger lists, grouping items by topic (e.g., `"Haus"`, `"Reise"`), or creating a specific category, such as `"Test am Montag"`. Using the **“Targeted Practice”** mode, you can review such groups separately.
+
+Save the completed list as a `.json` file, then import it into the manager via **⬇️ Import**.
+
+
+## 🧠 How Learning Works: The Spaced Repetition System (SRS)
+
+The app is based on the well-established **Spaced Repetition System (SRS)**, inspired by Sebastian Leitner's classic flashcard box method.
+
+1. **Moving Up and Down Levels:**
+   - If you get a vocabulary item correct, it moves up one level.
+   - If you make a mistake, it moves back down.
+2. **Dynamic Intervals:**
+   - Words at level 1 are reviewed frequently (e.g., after 1 day).
+   - Words at higher levels are reviewed at increasingly longer intervals (after weeks or months).
+3. **Balanced Review Schedule:**
+   - Review schedules are calculated to ensure you aren’t overwhelmed by a mountain of tasks on any given day, keeping your daily workload balanced.
+
+
+## 🛠️ Feedback
+
+If you spot any errors or have ideas for improvements, please feel free to open an issue in the repository!
+
+*Once the testing phase is complete, the polished, final version will be made available in the `Vocabulary-Trainer` repository.*
+
+<br>
+<br>
+
+<a id="deutsch"></a>
+
+# Deutsch
 
 Ein minimalistischer, ablenkungsfreier Vokabeltrainer mit Spaced Repetition und Offline-Funktion.
 
