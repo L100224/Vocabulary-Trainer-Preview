@@ -3,7 +3,7 @@
 Ein minimalistischer, ablenkungsfreier Vokabeltrainer mit Spaced Repetition und Offline-Funktion.
 
 
-👉 **[Hier klicken, um die Testversion im Browser auszuprobieren](https://l100224.github.io/Vocabulary-Trainer-Experimental/)**
+👉 **[Hier klicken, um die Testversion im Browser auszuprobieren](https://l100224.github.io/Vocabulary-Trainer-Preview/)**
 
 <br>
 
